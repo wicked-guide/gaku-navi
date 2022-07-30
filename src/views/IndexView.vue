@@ -1,9 +1,10 @@
 <template>
+  <HeaderNav></HeaderNav>
   <section class="wapper">
     <section class="grid">
       <div class="card" v-for="c in course" :key="c.name">
         <router-link :to="{ name: 'table', params: { name: c.name } }">
-          <img :src="'/thumbnail/' + c.img + '.png'" />
+          <img :src="require('@/assets/thumbnail/' + c.img + '.png')" />
           <div class="title">{{ c.title }}</div>
           <div class="date">{{ c.date }}</div>
         </router-link>
@@ -13,9 +14,11 @@
 </template>
 
 <script>
+import HeaderNav from "@/components/HeaderNav.vue";
+
 export default {
   name: "IndexView",
-  components: {},
+  components: { HeaderNav },
   data() {
     return {
       course: [
@@ -29,12 +32,12 @@ export default {
           name: "beginner_programming",
           img: "beginner_programming",
           title: "プログラミングはじめます？",
-          date: "22022/02/02",
+          date: "****",
         },
         {
           name: "jh_mathematics",
           img: "jh_mathematics",
-          title: "プログラミングはじめます？",
+          title: "ザックリ中学数学",
           date: "22022/02/02",
         },
       ],

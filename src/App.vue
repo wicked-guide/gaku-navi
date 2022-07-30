@@ -1,8 +1,7 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
+  <!-- <nav>
+    <router-link to="/">がくなび</router-link>
+  </nav> -->
   <router-view />
 </template>
 
@@ -21,15 +20,18 @@ body {
 }
 
 nav {
-  padding: 30px;
+  padding: 0.5rem;
+  background-color: steelblue;
 }
 
 nav a {
   font-weight: bold;
-  color: #2c3e50;
+  /* color: #2c3e50; */
+  color: white;
+  text-decoration: none;
 }
 
-nav a.router-link-exact-active {
+/* nav a.router-link-exact-active {
   color: #42b983;
-}
+} */
 </style>

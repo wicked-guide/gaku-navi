@@ -1,35 +1,55 @@
 <template>
+  <HeaderNav></HeaderNav>
   <section class="wapper">
-    <img :src="thumbnail" class="thumbnail" />
-    <div>{{ $route.params.name }}</div>
-
-    <!-- <div v-for="(tr, index) in table" :key="index">
-      {{ tr.part }}
-      <ul>
-        <li v-for="(chapter, index) in tr.chapter" :key="index">
-          {{ chapter.title }}
-        </li>
-      </ul>
-    </div> -->
-    <div>{{ contentTable }}</div>
+    <div>
+      <img
+        :src="require('@/assets/thumbnail/' + thumbnail)"
+        class="thumbnail"
+        alt="制作中"
+      />
+      <div
+        v-for="(tr, index) in contentTable"
+        :key="index"
+        class="contentTable"
+      >
+        <div class="title">{{ tr.part }}</div>
+        <ul>
+          <li v-for="(chapter, index) in tr.chapter" :key="index">
+            <router-link
+              :to="{
+                name: 'lecture',
+                params: { name: name, id: chapter.href },
+              }"
+            >
+              {{ chapter.title }}
+            </router-link>
+          </li>
+        </ul>
+      </div>
+    </div>
   </section>
 </template>
 
 <script>
+import HeaderNav from "@/components/HeaderNav.vue";
+
 export default {
   name: "TableView",
-  components: {},
+  components: { HeaderNav },
   data() {
     return {
       name: this.$route.params.name,
-      thumbnail: "/thumbnail/" + this.$route.params.name + ".png",
+      thumbnail: this.$route.params.name + ".png",
     };
   },
 
   computed: {
     contentTable() {
-      const tableName = this.$route.params.name;
-      return this.$store.getters.getTable(tableName);
+      try {
+        return this.$store.getters.getTable(this.name);
+      } catch {
+        return { mes: "制作中です" };
+      }
     },
   },
 };
@@ -37,13 +57,43 @@ export default {
 
 <style scoped>
 .wapper {
-  margin: auto;
+  margin: 2rem auto;
   padding: 0 2rem;
-  max-width: 800px;
+  max-width: 600px;
 }
 
 .thumbnail {
   max-width: 100%;
-  max-height: 300px;
+  /* max-height: 300px; */
+}
+
+.contentTable .title {
+  padding-left: 0.5rem;
+  font-size: large;
+  font-weight: bold;
+  border-left: steelblue solid 5px;
+  border-bottom: solid steelblue thin;
+}
+
+.contentTable ul {
+  margin: 0 0 1rem;
+  list-style: decimal;
+  font-size: larger;
+}
+
+.contentTable ul li {
+  margin: 0.2rem 0;
+}
+
+.contentTable ul a {
+  display: block;
+  padding: 0 0.5rem;
+  color: black;
+  text-decoration: auto;
+}
+
+.contentTable ul a:hover {
+  background-color: steelblue;
+  color: white;
 }
 </style>
