@@ -5,8 +5,8 @@ import table_jh_mathematics from "@/assets/jh_mathematics/table.json";
 import table_beginner_programming from "@/assets/beginner_programming/table.json";
 
 // 各シナリオの読み込み
-import jh_economy_01 from "@/assets/jh_economy/01.json";
-import jh_economy_02 from "@/assets/jh_economy/02.json";
+import jh_economy_01 from "@/assets/jh_economy/01/scenario.json";
+import jh_economy_02 from "@/assets/jh_economy/02/scenario.json";
 
 export default createStore({
   state: {
@@ -37,7 +37,7 @@ export default createStore({
     },
 
     // パスパラメータでシナリオを返す
-    getSenario: (state) => (name, id) => {
+    getScenario: (state) => (name, id) => {
       // console.log(tableName);
       return state.scenarios.find(
         (scenario) => scenario.name === name && scenario.id === id

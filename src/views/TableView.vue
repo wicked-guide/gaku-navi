@@ -1,21 +1,17 @@
 <template>
   <HeaderNav></HeaderNav>
   <section class="wapper">
-    <div>
-      <img
-        :src="require('@/assets/thumbnail/' + thumbnail)"
-        class="thumbnail"
-        alt="制作中"
-      />
-      <div
-        v-for="(tr, index) in contentTable"
-        :key="index"
-        class="contentTable"
-      >
+    <section>
+      <img :src="setImg" class="thumbnail" alt="そのコースは存在しません" />
+      <div></div>
+    </section>
+    <section v-if="contentTable" class="contentTable">
+      <div v-for="(tr, index) in contentTable" :key="index">
         <div class="title">{{ tr.part }}</div>
         <ul>
           <li v-for="(chapter, index) in tr.chapter" :key="index">
             <router-link
+              v-if="chapter.href != '#'"
               :to="{
                 name: 'lecture',
                 params: { name: name, id: chapter.href },
@@ -23,10 +19,15 @@
             >
               {{ chapter.title }}
             </router-link>
+            <div v-else>
+              <span class="making">制作中</span>
+              {{ chapter.title }}
+            </div>
           </li>
         </ul>
       </div>
-    </div>
+      <div>{{ contentTable.mes }}</div>
+    </section>
   </section>
 </template>
 
@@ -48,7 +49,17 @@ export default {
       try {
         return this.$store.getters.getTable(this.name);
       } catch {
-        return { mes: "制作中です" };
+        return { mes: "そのコースは存在しません" };
+      }
+    },
+    // スライドの読み込み
+    setImg() {
+      try {
+        const thumbnailSrc = this.$route.params.name + ".png";
+        console.log(thumbnailSrc);
+        return require("@/assets/thumbnail/" + thumbnailSrc);
+      } catch {
+        return { mes: "そのコースは存在しません" };
       }
     },
   },
@@ -59,12 +70,20 @@ export default {
 .wapper {
   margin: 2rem auto;
   padding: 0 2rem;
-  max-width: 600px;
+  /* max-width: 600px; */
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 1rem;
 }
 
 .thumbnail {
   max-width: 100%;
   /* max-height: 300px; */
+}
+
+.contentTable {
+  max-height: 85vh;
+  overflow: auto;
 }
 
 .contentTable .title {
@@ -95,5 +114,11 @@ export default {
 .contentTable ul a:hover {
   background-color: steelblue;
   color: white;
+}
+
+.making {
+  background: lightgray;
+  padding: 0 0.5rem;
+  border-radius: 5px;
 }
 </style>

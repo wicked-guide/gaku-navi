@@ -38,7 +38,7 @@ export default {
           name: "jh_mathematics",
           img: "jh_mathematics",
           title: "ザックリ中学数学",
-          date: "22022/02/02",
+          date: "****",
         },
       ],
     };
