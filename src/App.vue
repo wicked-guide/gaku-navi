@@ -1,7 +1,4 @@
 <template>
-  <!-- <nav>
-    <router-link to="/">がくなび</router-link>
-  </nav> -->
   <router-view />
 </template>
 

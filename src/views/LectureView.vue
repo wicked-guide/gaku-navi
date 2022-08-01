@@ -8,7 +8,7 @@
           params: { name: name },
         }"
       >
-        <button class="backBtn">&laquo;</button>
+        <button class="backBtn" @click="reset">&laquo;</button>
       </router-link>
     </section>
 
@@ -128,6 +128,13 @@ export default {
     };
   },
   methods: {
+    // 戻る際にリセット
+    reset() {
+      this.messageVoice.pause();
+      this.slideIndex = 0;
+      this.messageIndex = 0;
+    },
+
     // 進む
     nextMessage() {
       // 状態確認
