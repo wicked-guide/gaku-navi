@@ -4,7 +4,7 @@
     <section class="grid">
       <div class="card" v-for="c in course" :key="c.name">
         <router-link :to="{ name: 'table', params: { name: c.name } }">
-          <img :src="require('@/assets/thumbnail/' + c.img + '.png')" />
+          <img :src="require('@/assets/thumbnail/' + c.name + '.png')" />
           <div class="title">{{ c.title }}</div>
           <div class="date">{{ c.date }}</div>
         </router-link>
@@ -24,20 +24,22 @@ export default {
       course: [
         {
           name: "jh_economy",
-          img: "jh_economy",
           title: "中学生に学んで欲しい経済入門",
           date: "22022/02/02",
         },
         {
           name: "beginner_programming",
-          img: "beginner_programming",
           title: "プログラミングはじめます？",
           date: "****",
         },
         {
           name: "jh_mathematics",
-          img: "jh_mathematics",
           title: "ザックリ中学数学",
+          date: "****",
+        },
+        {
+          name: "giveup-English",
+          title: "ギブアップ英語",
           date: "****",
         },
       ],

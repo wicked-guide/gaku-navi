@@ -49,7 +49,7 @@ export default {
       try {
         return this.$store.getters.getTable(this.name);
       } catch {
-        return { mes: "そのコースは存在しません" };
+        return { mes: "制作中です" };
       }
     },
     // スライドの読み込み
@@ -59,7 +59,7 @@ export default {
         console.log(thumbnailSrc);
         return require("@/assets/thumbnail/" + thumbnailSrc);
       } catch {
-        return { mes: "そのコースは存在しません" };
+        return { mes: "制作中です" };
       }
     },
   },
