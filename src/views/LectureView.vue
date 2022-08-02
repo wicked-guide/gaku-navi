@@ -62,10 +62,18 @@
       <!-- メッセージエリア -->
       <section class="messageArea">
         <section class="btnArea">
+          <!-- ボイス -->
+          <button
+            class="voiceBtn"
+            :class="talkVoice ? 'btnOn' : 'btnOff'"
+            @click="isVoice"
+          >
+            ボイス
+          </button>
           <!-- オートスキップ -->
           <button
-            class="skipbtn"
-            :class="autoskip ? 'skipon' : 'skipoff'"
+            class="skipBtn"
+            :class="autoskip ? 'btnOn' : 'btnOff'"
             @click="isSkip"
           >
             オートスキップ
@@ -123,6 +131,7 @@ export default {
       showMenu: true, //もくじ表示
       showQuestion: false, // 選択問題の時
       skipable: true, //スキップ可/不可
+      talkVoice: true, // 音声再生
       autoskip: false, //オートスキップ
       showAnswer: false, //正解と解説の表示
     };
@@ -168,7 +177,9 @@ export default {
         this.messageIndex++;
       }
       // 音声再生
-      this.voicePlay();
+      if (this.talkVoice) {
+        this.voicePlay();
+      }
     },
 
     // 音声の再生
@@ -206,6 +217,7 @@ export default {
       }
       console.log("showQuestion:" + this.showQuestion);
     },
+
     // 正誤判定
     makeChoice(index) {
       // 回答後は停止
@@ -244,14 +256,25 @@ export default {
         return { mes: "制作中です" };
       }
     },
+
+    // ボイス切り替え
+    isVoice() {
+      this.talkVoice = !this.talkVoice;
+      if (!this.talkVoice) {
+        this.autoskip = false;
+      }
+    },
+
     // オートスキップ切り替え
     isSkip() {
       this.autoskip = !this.autoskip;
     },
+
     // サイドメニューの表示
     isMenu() {
       this.showMenu = !this.showMenu;
     },
+
     // サイドメニューでスライドジャンプ
     jampSlide(index) {
       this.slideIndex = index;
@@ -418,18 +441,20 @@ export default {
 }
 
 /* オートスキップ */
-.skipbtn {
+.voiceBtn,
+.skipBtn {
+  margin-left: 0.2rem;
   /* padding: 0.5rem; */
   border: solid darkcyan;
   border-radius: 10px;
   font-weight: bold;
 }
 
-.skipon {
+.btnOn {
   background-color: aquamarine;
 }
 
-.skipoff {
+.btnOff {
   background-color: gray;
   opacity: 0.8;
 }
