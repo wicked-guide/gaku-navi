@@ -9,28 +9,61 @@
   {
     "part": "html",
     "chapter": [
-      { "title": "負(マイナス)の数", "href": "#" },
-      { "title": "文字と式", "href": "#" },
-      { "title": "方程式", "href": "#" },
-      { "title": "関数", "href": "#" }
+      { "title": "webの基本的な考え", "href": "#" },
+      { "title": "最低限のhtml構造", "href": "#" },
+      { "title": "基本的な表示要素", "href": "#" },
+      { "title": "入力要素", "href": "#" }
     ]
   },
   {
     "part": "css",
     "chapter": [
-      { "title": "平面図形", "href": "#" },
-      { "title": "立体図形", "href": "#" },
-      { "title": "平行と合同", "href": "#" },
-      { "title": "相似", "href": "#" },
-      { "title": "円", "href": "#" },
-      { "title": "三平方の定理", "href": "#" }
+      { "title": "cssの基本ルール", "href": "#" },
+      { "title": "基本的なcss", "href": "#" },
+      { "title": "とりあえずBootStrapを使ってみる", "href": "#" },
+      { "title": "応用編", "href": "#" }
     ]
   },
   {
     "part": "javascript",
     "chapter": [
-      { "title": "確率", "href": "#" },
-      { "title": "標本調査", "href": "#" }
+      { "title": "javascriptを使ってみる", "href": "#" },
+      { "title": "基本編１", "href": "#" },
+      { "title": "基本編２", "href": "#" },
+      { "title": "試しにvue.jsを使ってみる", "href": "#" },
+      { "title": "vue-cliにチャレンジ", "href": "#" }
+    ]
+  },
+  {
+    "part": "game",
+    "chapter": [
+      { "title": "javascriptでゲームを作ってみる１", "href": "#" },
+      { "title": "javascriptでゲームを作ってみる２", "href": "#" },
+      { "title": "javascriptでゲームを作ってみる３", "href": "#" }
+    ]
+  },
+  {
+    "part": "firebase",
+    "chapter": [
+      { "title": "firebaseの導入", "href": "#" },
+      { "title": "vue.jsとfirebase", "href": "#" },
+      { "title": "firestore", "href": "#" }
+    ]
+  },
+  {
+    "part": "python",
+    "chapter": [
+      { "title": "python環境の整理", "href": "#" },
+      { "title": "ちょっとした作業の自動化", "href": "#" },
+      { "title": "Django", "href": "#" }
+    ]
+  },
+  {
+    "part": "flutter",
+    "chapter": [
+      { "title": "flutter環境の整理", "href": "#" },
+      { "title": "シンプルなアプリ", "href": "#" },
+      { "title": "firebaseと連携", "href": "#" }
     ]
   }
 ]
