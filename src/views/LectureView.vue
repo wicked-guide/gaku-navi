@@ -64,22 +64,24 @@
         <section class="btnArea">
           <!-- ボイス -->
           <button
-            class="voiceBtn"
+            class="menuBtn"
             :class="talkVoice ? 'btnOn' : 'btnOff'"
             @click="isVoice"
           >
             ボイス
           </button>
+          <!-- 音声テスト -->
+          <button @click="voicePlay" class="repeat" :disabled="!talkVoice">
+            再生▶
+          </button>
           <!-- オートスキップ -->
           <button
-            class="skipBtn"
+            class="menuBtn"
             :class="autoskip ? 'btnOn' : 'btnOff'"
             @click="isSkip"
           >
             オートスキップ
           </button>
-          <!-- 音声テスト -->
-          <button @click="voicePlay" class="repeat">もう一度聞く▶</button>
         </section>
 
         <!-- メッセージウィンドウ -->
@@ -268,6 +270,9 @@ export default {
     // オートスキップ切り替え
     isSkip() {
       this.autoskip = !this.autoskip;
+      if (this.autoskip) {
+        this.talkVoice = true;
+      }
     },
 
     // サイドメニューの表示
@@ -425,7 +430,7 @@ export default {
 }
 .messageWindow {
   box-sizing: border-box;
-  height: 170px;
+  /* height: 170px; */
   background-color: rgb(0, 0, 0, 0.8);
   border-radius: 10px;
   display: flex;
@@ -438,13 +443,12 @@ export default {
   margin: auto;
   padding: 0.2rem;
   height: 95%;
+  max-height: 170px;
 }
 
-/* オートスキップ */
-.voiceBtn,
-.skipBtn {
+/* 操作ボタン */
+.menuBtn {
   margin-left: 0.2rem;
-  /* padding: 0.5rem; */
   border: solid darkcyan;
   border-radius: 10px;
   font-weight: bold;
@@ -462,6 +466,8 @@ export default {
 .repeat {
   margin-left: 0.2rem;
   font-weight: bold;
+  border: solid darkcyan;
+  border-radius: 10px;
 }
 
 /* メッセージ */
