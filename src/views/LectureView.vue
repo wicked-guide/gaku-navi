@@ -347,7 +347,7 @@ export default {
 .main {
   box-sizing: border-box;
   width: 100%;
-  max-width: 980px;
+  max-width: 90%;
   margin: 0 auto;
   padding: 0 1rem;
   display: grid;
@@ -360,7 +360,8 @@ export default {
 }
 .slide {
   max-width: 100%;
-  max-height: calc(100vh - 250px);
+  /* max-height: calc(100vh - 250px); */
+  max-height: 70vh;
 }
 
 /* 選択問題エリア */
@@ -431,6 +432,7 @@ export default {
 .messageWindow {
   box-sizing: border-box;
   /* height: 170px; */
+  max-height: 20vh;
   background-color: rgb(0, 0, 0, 0.8);
   border-radius: 10px;
   display: flex;
@@ -442,8 +444,8 @@ export default {
 .actor {
   margin: auto;
   padding: 0.2rem;
-  height: 95%;
-  max-height: 170px;
+  /* height: 95%; */
+  max-height: 19vh;
 }
 
 /* 操作ボタン */

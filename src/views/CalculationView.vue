@@ -17,7 +17,6 @@
         </button>
       </template>
     </div>
-    <!-- <button @click="randNum">ランダム</button> -->
     <!-- 計算ゾーン -->
     <section class="calculation">
       <!-- 割り算以外 -->

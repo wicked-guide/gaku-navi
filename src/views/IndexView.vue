@@ -16,6 +16,8 @@
     <section v-show="extra" class="extra">
       <!-- <div>おまけ</div> -->
       <router-link to="Calculation">ランダム計算</router-link>
+      <router-link to="areavolume">ランダム面積</router-link>
+      <router-link to="hajiki">速さ時間距離</router-link>
     </section>
   </section>
 </template>
@@ -102,12 +104,13 @@ export default {
 
 /* おまけ */
 .extra {
-  background: antiquewhite;
+  background: floralwhite;
   padding: 1rem;
   border-radius: 10px;
 }
 
 .extra a {
+  display: block;
   text-decoration: none;
   color: steelblue;
   padding: 0.5rem;
