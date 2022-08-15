@@ -23,7 +23,7 @@
       <section class="question" v-if="showQuestion">
         <div class="label">問題</div>
         <!-- <div>{{ scenario[slideIndex] }}</div> -->
-        <div>{{ scenario[slideIndex].title }}</div>
+        <!-- <div>{{ scenario[slideIndex].title }}</div> -->
         <div>{{ scenario[slideIndex].question.question }}</div>
         <section class="choice">
           <template
@@ -334,7 +334,7 @@ export default {
   display: grid;
   grid-template-columns: auto 1fr auto;
   gap: 1rem;
-  /* user-select: none; */
+  user-select: none;
 }
 
 /* 左エリア */
@@ -431,14 +431,22 @@ export default {
 }
 .messageWindow {
   box-sizing: border-box;
-  /* height: 170px; */
-  max-height: 20vh;
+  height: 20vh;
   background-color: rgb(0, 0, 0, 0.8);
   border-radius: 10px;
   display: flex;
   color: white;
   font-size: x-large;
   cursor: pointer;
+}
+
+@media (max-width: 980px) {
+  .messageWindow {
+    font-size: large;
+  }
+  .actor {
+    display: none;
+  }
 }
 
 .actor {
