@@ -16,18 +16,20 @@
     <section class="main">
       <!-- スライドエリア -->
       <section class="slideArea" v-if="!showQuestion">
-        <!-- <div>{{ name }}:{{ id }}<</div> -->
-        <img :src="setImg" alt="dd" class="slide" />
+        <img :src="setImg" alt="スライド" class="slide" />
       </section>
+
       <!-- 選択問題 -->
       <section class="question" v-if="showQuestion">
         <div class="label">問題</div>
-        <!-- <div>{{ scenario[slideIndex] }}</div> -->
-        <!-- <div>{{ scenario[slideIndex].title }}</div> -->
-        <div>{{ scenario[slideIndex].question.question }}</div>
+
+        <!-- 問題文 -->
+        <div>{{ scenario[titleIndex].question.question }}</div>
+
+        <!-- 選択肢 -->
         <section class="choice">
           <template
-            v-for="(choice, index) in scenario[slideIndex].question.choice"
+            v-for="(choice, index) in scenario[titleIndex].question.choice"
             :key="index"
           >
             <div class="btn">
@@ -40,7 +42,7 @@
                   class="correct"
                   v-show="
                     showAnswer &&
-                    index == scenario[slideIndex].question.answer.num
+                    index == scenario[titleIndex].question.answer.num
                   "
                   >✔</span
                 >
@@ -48,7 +50,7 @@
                   class="wrong"
                   v-show="
                     showAnswer &&
-                    index != scenario[slideIndex].question.answer.num
+                    index != scenario[titleIndex].question.answer.num
                   "
                   >&times;</span
                 >
@@ -87,10 +89,13 @@
         <!-- メッセージウィンドウ -->
         <div class="messageWindow" @click="nextMessage">
           <!-- キャラ画像 -->
-          <img :src="require('@/assets/actor/' + actor)" class="actor" />
+          <img :src="setActor" alt="キャラ画像" class="actor" />
+
           <!-- メッセージ -->
           <div class="messageText" v-if="scenario">
-            {{ scenario[slideIndex].message[messageIndex].text }}
+            {{
+              scenario[titleIndex].slide[slideIndex].message[messageIndex].text
+            }}
           </div>
         </div>
       </section>
@@ -98,13 +103,12 @@
 
     <!-- もくじ -->
     <div class="index">
-      <!-- <div v-if="scenario">json:{{ scenario }}</div> -->
       <button @click="isMenu">&equiv;</button>
       <ul v-show="showMenu">
         <li
           v-for="(s, index) in scenario"
           :key="index"
-          :class="{ active: slideIndex == index }"
+          :class="{ active: titleIndex == index }"
           @click="jampSlide(index)"
         >
           {{ s.title }}
@@ -125,6 +129,7 @@ export default {
       id: this.$route.params.id,
       actor: "Tsumugi-01.png", // アクター
       // 表示制御
+      titleIndex: 0, // 表示ページ
       slideIndex: 0, //表示スライド番号
       slideImg: "", //表示スライド画像
       messageIndex: 0, //表示メッセージ番号
@@ -142,6 +147,7 @@ export default {
     // 戻る際にリセット
     reset() {
       this.messageVoice.pause();
+      this.titleIndex = 0;
       this.slideIndex = 0;
       this.messageIndex = 0;
     },
@@ -149,9 +155,13 @@ export default {
     // 進む
     nextMessage() {
       // 状態確認
-      const slideLength = this.scenario.length;
-      const messageLength = this.scenario[this.slideIndex].message.length;
+      const titleLength = this.scenario.length;
+      const slideLength = this.scenario[this.titleIndex].slide.length;
+      const messageLength =
+        this.scenario[this.titleIndex].slide[this.slideIndex].message.length;
       // console.log(
+      //   "タイトル:",
+      //   this.titleIndex + 1 + "/" + titleLength,
       //   "スライド:",
       //   this.slideIndex + 1 + "/" + slideLength,
       //   "メッセージ:",
@@ -164,18 +174,31 @@ export default {
       }
 
       // 最後だったら停止
-      if (this.messageIndex + 1 == messageLength) {
-        if (this.slideIndex + 1 == slideLength) {
-          console.log("終了");
-          return;
-        }
-        // 次のスライドの最初のメッセージ
-        this.slideIndex++;
+      if (
+        this.titleIndex + 1 == titleLength &&
+        this.slideIndex + 1 == slideLength &&
+        this.messageIndex + 1 == messageLength
+      ) {
+        console.log("終了");
+        return;
+      }
+      // スライドの最後なら次のタイトル
+      else if (
+        this.slideIndex + 1 == slideLength &&
+        this.messageIndex + 1 == messageLength
+      ) {
+        this.titleIndex++;
+        this.slideIndex = 0;
         this.messageIndex = 0;
         this.isQuestion();
-        this.setSlide();
-      } else {
-        // 次のメッセージ
+      }
+      // 最後のメッセージなら次のスライド
+      else if (this.messageIndex + 1 == messageLength) {
+        this.slideIndex++;
+        this.messageIndex = 0;
+      }
+      // 通常:次のメッセージ
+      else {
         this.messageIndex++;
       }
       // 音声再生
@@ -188,7 +211,9 @@ export default {
     voicePlay() {
       this.messageVoice.pause();
       const voice =
-        this.scenario[this.slideIndex].message[this.messageIndex].voice;
+        this.scenario[this.titleIndex].slide[this.slideIndex].message[
+          this.messageIndex
+        ].voice;
       if (voice) {
         this.messageVoice = new Audio(
           require("@/assets/" + this.name + "/" + this.id + "/voice/" + voice)
@@ -206,8 +231,9 @@ export default {
     // 選択問題
     // 問題かどうかチェック
     isQuestion() {
-      if (this.scenario[this.slideIndex].question && this.messageIndex == 0) {
-        for (const i of this.scenario[this.slideIndex].question.choice) {
+      if (this.scenario[this.titleIndex].question && this.messageIndex == 0) {
+        // 回答の初期化
+        for (const i of this.scenario[this.titleIndex].question.choice) {
           i.choiced = false;
         }
         this.showQuestion = true;
@@ -217,7 +243,7 @@ export default {
         this.skipable = true;
         this.showQuestion = false;
       }
-      console.log("showQuestion:" + this.showQuestion);
+      // console.log("showQuestion:" + this.showQuestion);
     },
 
     // 正誤判定
@@ -228,9 +254,9 @@ export default {
       }
       this.messageVoice.pause();
 
-      this.scenario[this.slideIndex].question.choice[index].choiced = true;
+      this.scenario[this.titleIndex].question.choice[index].choiced = true;
       // 正解の時
-      if (index == this.scenario[this.slideIndex].question.answer.num) {
+      if (index == this.scenario[this.titleIndex].question.answer.num) {
         this.skipable = true;
         this.showAnswer = true;
         this.messageVoice = new Audio(require("@/assets/voice/せーかい.mp3"));
@@ -252,7 +278,8 @@ export default {
     //スライドのセット
     setSlide() {
       try {
-        this.slideImg = this.scenario[this.slideIndex].slide;
+        this.slideImg =
+          this.scenario[this.titleIndex].slide[this.slideIndex].slideSrc;
         return this.slideImg;
       } catch {
         return { mes: "制作中です" };
@@ -282,16 +309,14 @@ export default {
 
     // サイドメニューでスライドジャンプ
     jampSlide(index) {
-      this.slideIndex = index;
+      this.titleIndex = index;
+      this.slideIndex = 0;
       this.messageIndex = 0;
       this.isQuestion();
       this.setSlide();
       this.voicePlay();
     },
   },
-  // mounted() {
-  //   // this.setSlide();
-  // },
 
   computed: {
     // シナリオデータの読み込み
@@ -306,7 +331,8 @@ export default {
     // スライドの読み込み
     setImg() {
       try {
-        const imgSrc = this.scenario[this.slideIndex].slide;
+        const imgSrc =
+          this.scenario[this.titleIndex].slide[this.slideIndex].slideSrc;
         return require("@/assets/" +
           this.name +
           "/" +
@@ -315,6 +341,19 @@ export default {
           imgSrc);
       } catch {
         return { mes: "制作中です" };
+      }
+    },
+
+    // キャラ画像の読み込み
+    setActor() {
+      try {
+        const actorSrc =
+          this.scenario[this.titleIndex].slide[this.slideIndex].message[
+            this.messageIndex
+          ].actor;
+        return require("@/assets/actor/" + actorSrc);
+      } catch {
+        return { mes: "NO IMAGE" };
       }
     },
   },
